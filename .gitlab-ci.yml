@@ -1,0 +1,52 @@
+# requiring the environment of lyx
+image: andlinger/docker-lyx-xelatex:latest
+
+variables:
+  DIRNAME: "example"
+  TITLE: "Example Reports"
+  AUTHOR: "Example Author"
+
+before_script:
+  - apt clean
+  - apt update --fix-missing
+  - apt install -qy texlive-publishers texlive-publishers-doc texlive-lang-chinese python3-jinja2 latexmk
+  - apt install --reinstall -y locales
+  - sed -i 's/# zh_CN.UTF-8 UTF-8/zh_CN.UTF-8 UTF-8/' /etc/locale.gen    
+  - rm -rf /var/lib/apt/lists/*
+  - export LANG=zh_CN.UTF-8
+  - export LANGUAGE=zh_CN
+  - export LC_ALL=zh_CN.UTF-8
+  - dpkg-reconfigure --frontend noninteractive locales
+
+stages: 
+  - build
+
+merge:
+  stage: build
+  script:
+    - python3 merge.py --dirname=${DIRNAME} --title=${TITLE} --author=${AUTHOR}
+    - latexmk -view=none ./build/${DIRNAME}.tex
+  artifacts:
+    paths:
+      - ./build/${DIRNAME}.pdf
+  when: manual
+  only:
+    - master
+  tags:
+    - docker
+  dependencies: []
+
+merge_lyx:
+  stage: build
+  script:
+    - python3 merge_lyx.py --dirname=${DIRNAME} --title=${TITLE} --author=${AUTHOR}
+    - lyx --export pdf4 ./build/${DIRNAME}.lyx
+  artifacts:
+    paths:
+      - ./build/${DIRNAME}.pdf
+  when: manual
+  only:
+    - master
+  tags:
+    - docker
+  dependencies: []
