@@ -25,11 +25,11 @@ stages:
 merge:
   stage: build
   script:
-    - python3 merge.py --dirname=${DIRNAME} --title=${TITLE} --author=${AUTHOR}
-    - latexmk -view=none ./build/${DIRNAME}.tex
+    - python3 merge.py --dirname=$DIRNAME --title=$TITLE --author=$AUTHOR
+    - latexmk -view=none ./build/$DIRNAME.tex
   artifacts:
     paths:
-      - ./build/${DIRNAME}.pdf
+      - ./build/$DIRNAME.pdf
   when: manual
   only:
     - master
@@ -40,11 +40,11 @@ merge:
 merge_lyx:
   stage: build
   script:
-    - python3 merge_lyx.py --dirname=${DIRNAME} --title=${TITLE} --author=${AUTHOR}
-    - lyx --export pdf4 ./build/${DIRNAME}.lyx
+    - python3 merge_lyx.py --dirname=$DIRNAME --title=$TITLE --author=$AUTHOR
+    - lyx --export pdf4 ./build/$DIRNAME.lyx
   artifacts:
     paths:
-      - ./build/${DIRNAME}.pdf
+      - ./build/$DIRNAME.pdf
   when: manual
   only:
     - master

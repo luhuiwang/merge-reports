@@ -1,7 +1,7 @@
 FROM andlinger/docker-lyx-xelatex:latest
 LABEL Name=merge-technical-reports Version=2018.12
-ADD sources.list /etc/apt/
 RUN apt clean &&\
+    sed -i 's/archive.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list &&\
     apt update --fix-missing &&\
     apt install -qy texlive-publishers texlive-publishers-doc texlive-lang-chinese python3-jinja2 latexmk &&\
     apt install --reinstall -y locales &&\
