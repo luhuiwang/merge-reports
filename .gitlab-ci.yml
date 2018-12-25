@@ -25,7 +25,7 @@ stages:
 merge:
   stage: build
   script:
-    - python3 merge.py --dirname=$DIRNAME --title=$TITLE --author=$AUTHOR
+    - python3 merge.py --dirname="$DIRNAME" --title="$TITLE" --author="$AUTHOR"
     - latexmk -view=none ./build/$DIRNAME.tex
   artifacts:
     paths:
@@ -40,7 +40,7 @@ merge:
 merge_lyx:
   stage: build
   script:
-    - python3 merge_lyx.py --dirname=$DIRNAME --title=$TITLE --author=$AUTHOR
+    - python3 merge_lyx.py --dirname="$DIRNAME" --title="$TITLE" --author="$AUTHOR"
     - lyx --export pdf4 ./build/$DIRNAME.lyx
   artifacts:
     paths:

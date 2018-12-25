@@ -44,13 +44,13 @@ docker build -t merge_reports ./
 DIRNAME="example"
 TITLE="Example Reports"
 AUTHOR="Example Author"
-docker run --rm   -v /"$(pwd)/":/merge-technical-reports merge_reports  python3 merge.py --dirname=$DIRNAME --title=$TITLE --author=$AUTHOR
+docker run --rm   -v /"$(pwd)/":/merge-technical-reports merge_reports  python3 merge.py --dirname="$DIRNAME" --title="$TITLE" --author="$AUTHOR"
 docker run --rm   -v /"$(pwd)/":/merge-technical-reports merge_reports  latexmk -view=none ./build/$DIRNAME.tex
    
 # (推荐) 使用编译方案二
 DIRNAME="example"
 TITLE="Example Reports"
 AUTHOR="Example Author"
-docker run --rm   -v /"$(pwd)/":/merge-technical-reports merge_reports  python3 merge_lyx.py --dirname=$DIRNAME --title=$TITLE --author=$AUTHOR
+docker run --rm   -v /"$(pwd)/":/merge-technical-reports merge_reports  python3 merge_lyx.py --dirname="$DIRNAME" --title="$TITLE" --author="$AUTHOR"
 docker run --rm   -v /"$(pwd)/":/merge-technical-reports merge_reports  lyx --export pdf4 ./build/$DIRNAME.lyx
 ```
